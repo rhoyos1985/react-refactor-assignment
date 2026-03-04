@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  # Vendor API service (existing)
+  unit-testing-api:
+    container_name: unit-testing-api
+    build:
+      context: ./api
+      dockerfile: docker/Dockerfile
+    ports:
+      - '2137:2137'
+    networks:
+      - doctor-network
+
+  # React Frontend
+  doctor-frontend:
+    container_name: doctor-frontend
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    ports:
+      - '3000:80'
+    depends_on:
+      - unit-testing-api
+    networks:
+      - doctor-network
+
+  # Dev server (optional - for development)
+  doctor-frontend-dev:
+    container_name: doctor-frontend-dev
+    image: node:22-alpine
+    working_dir: /app
+    volumes:
+      - ./app:/app
+      - /app/node_modules
+    command: sh -c "npm install && npm run dev"
+    ports:
+      - '5173:5173'
+    depends_on:
+      - unit-testing-api
+    networks:
+      - doctor-network
+    profiles:
+      - dev
+
+networks:
+  doctor-network:
+    driver: bridge
