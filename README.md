@@ -1,60 +1,88 @@
-# Refactoring & unit testing challenge
 
-## It's great you're here!
-We're excited to have you at this stage of the recruitment process — and we're looking forward to seeing how you think
-and approach complex problems.
+# Project Structure (Recommended)
 
-This task is designed not only to evaluate your ability to write clean and testable code, but more importantly 
-to **understand your approach to software design, architecture, and testing at a senior level.**
+Organize your React + Redux frontend as follows:
 
-## What we're looking for?
-We're looking for a Senior developer who is able to work closely with business and understand the business logic and 
-purpose behind it.
+- `src/`
+  - `components/` — Reusable React components (e.g., `DoctorList.tsx`, `DoctorSlots.tsx`)
+  - `store/` — Redux store setup, slices, and RTK Query API definitions
+  - `types/` — TypeScript type definitions and interfaces
+  - `api/` — API utility functions or services (if not using RTK Query)
+  - `App.tsx` — Main application entry point
+  - `index.tsx` — ReactDOM render and provider setup
 
-This exercise will give you space to demonstrate:
+Keep tests alongside components or in a separate `__tests__/` folder. Use clear, descriptive names for files and folders to improve maintainability.
 
-- Proficiency in refactoring legacy or procedural code into clean, maintainable OOP components.
-- Your ability to deeply understand and translate complex business requirements into well-structured, maintainable, 
-  and valuable software solutions.
-- Strong understanding and application of SOLID principles.
-- Use of appropriate design patterns where they add clarity and value.
-Awareness and thoughtful application of modern software architecture principles, clearly separating technical 
-   concerns while maintaining deep business insight.
-- A pragmatic yet rigorous approach to unit testing, emphasizing the testability of business-critical components.
-- Clear, developer-friendly communication—whether through your code structure, naming conventions, or thoughtful commentary
-- Being up to date with PHP language development and its features.
+# PHP vs React + Redux (TypeScript)
 
-## Task description
-Please look at [`src/DoctorSlotsSynchronizer.php`](src/DoctorSlotsSynchronizer.php). 
+## Key Differences
+| Aspect                | PHP (Current)                                   | React + Redux (TypeScript)                |
+|-----------------------|-------------------------------------------------|-------------------------------------------|
+| Rendering             | Server-side, static HTML                        | Client-side, dynamic, real-time UI        |
+| State Management      | None (stateless, or manual session handling)    | Centralized, predictable with Redux       |
+| Interactivity         | Limited, requires page reloads                  | Highly interactive, SPA experience        |
+| Component Reusability | Low (template-based)                            | High (component-based architecture)       |
+| Developer Experience  | Slower feedback, less tooling                   | Hot reload, DevTools, strong ecosystem    |
+| Type Safety           | PHP types, runtime errors                       | TypeScript, compile-time safety           |
+| Testing               | PHPUnit, integration-heavy                      | Jest, RTL, easy unit/component testing    |
+| Ecosystem             | Composer, older packages                        | npm, largest JS ecosystem                 |
 
-Your goal is to:
-- Clearly articulate and understand the existing business logic purely from the provided code.
-- Refactor the class to make it easier to test, reason about, and maintain. Think in terms of architecture, 
-modularity, and clarity.
-- Write tests for the extracted/refactored business logic using your preferred PHP testing framework.
-- If you see opportunities for improvements that go beyond the scope of the task, feel free to:
-  - Add them, but please remember to keep your changes minimal.
-  - Or simply leave comments describing your suggestions and reasoning. It's the preferred way.
+## Why I choose react to complete this task
+- **Real-Time UI**: React enables instant updates to the UI as data changes, without reloading the page. This is ideal for displaying doctor slots and availability.
+- **Predictable State**: Redux provides a single source of truth for application state, making it easier to manage, debug, and extend.
+- **Component-Based**: React’s modular components make the UI easier to maintain, test, and reuse.
+- **Type Safety**: TypeScript catches errors at compile time, reducing bugs and improving code quality.
+- **Developer Productivity**: Hot reloading, powerful dev tools, and a rich ecosystem speed up development and debugging.
+- **Separation of Concerns**: React cleanly separates UI from backend logic, leading to a more maintainable codebase.
+- **Testing**: React Testing Library and Jest make it easy to write fast, reliable unit and integration tests for UI and logic.
 
-We will very much appreciate comments about why you've chosen certain solutions!
+## Summary
+Refactoring the frontend using React, Redux, and TypeScript will result in a more interactive, maintainable, and scalable application. It leverages modern web development best practices and provides a superior developer and user experience compared to a PHP-based frontend.
 
-### Additional Notes & Tips
-- Focus on demonstrating clarity and business-driven quality over quantity.
-- You decide how much time you want to spend — quality over quantity is key.
-- If something could be improved but would take too long, just leave a comment or TODO.
-- If anything is unclear, don’t hesitate to reach out — asking questions is a good sign.
+# How to Run the Project
 
-## How to use this repository?
-- To create your copy, 
-  - Use the green "Use this template" button on the top right. It should be set as private repo. 
-  - Do not use the Fork feature.
-- Complete the task as described above.
-- When done, give access to the repo to the hiring manager and other people provided.
-- Send us the link to the PULL REQUEST **in your repo**, so we can review your work.
+## Prerequisites
+- Node.js 22+
+- Docker & Docker Compose (for containerized deployment)
 
-## Installation
-Only the vendor API is dockerized and configured to work with `docker-compose`. However, feel free to dockerize the rest of the project if you find it helpful.
-To run the container, use `docker-compose up -d`.
-After a while, the vendor API serving doctors will be accessible on `http://localhost:2137`.
+## Development Mode
 
-## Good luck!
+1. Start the API server:
+```bash
+docker-compose up unit-testing-api -d
+```
+
+2. Install dependencies and run the frontend:
+```bash
+cd app
+npm install
+npm run dev
+```
+
+3. Open http://localhost:5173 in your browser
+
+## Production Mode (Docker)
+
+Run both the API and frontend in containers:
+```bash
+docker-compose up -d
+```
+
+- Frontend: http://localhost:3000
+- API: http://localhost:2137
+
+## Running Tests
+
+```bash
+cd app
+npm test
+```
+
+## Build for Production
+
+```bash
+cd app
+npm run build
+```
+
+The built files will be in `app/dist/`.
